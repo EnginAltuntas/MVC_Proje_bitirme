@@ -1,0 +1,223 @@
+﻿@{
+    ViewBag.Title = "goster";
+}
+<script type="text/javascript" src="https://code.jquery.com/jquery-latest.js"></script><br />
+<style type="text/css">
+    .baslik
+    {
+        background-color:chocolate;width:80%;height:100px;padding-top:5px;top:65px;position:fixed;z-index:1;float:left;
+
+        border: 0.5px ;
+        padding: 2px;
+        margin:40px;
+        box-shadow: 5px 5px 20px 1px #666666;
+        border-bottom-left-radius: 25px 25px;
+        border-top-right-radius: 25px 25px;
+        color:white;
+
+    }
+    .baslik2
+    {
+        background-color:dodgerblue;width:10%;height:100px;position:fixed;top:65px;z-index:1;float:left;color:white;text-align:center;
+
+        border: 0.5px ;
+        padding: 2px;
+        margin:40px;
+        box-shadow: 5px 5px 20px 1px #666666;
+        border-bottom-left-radius: 25px 25px;
+        border-top-right-radius: 25px 25px;
+        color:white;
+    }
+    .baslik2:hover
+    {
+        background-color:skyblue;
+    }
+    body, input {
+        font-family: Calibri, Arial;
+        position:relative;
+    }
+
+    #contentt {
+        text-align: left;
+        position: relative;
+        background-color: #73152C;
+        width: 661px;
+        height: auto;
+        padding: 3px;
+        margin-top: 5px;
+        overflow: hidden;
+        padding: 8px;
+        -webkit-border-radius: 6px;
+        -moz-border-radius: 6px;
+        border-radius: 6px;
+    }
+</style><br />
+
+<div class="baslik" >
+
+    @if (ViewBag.sinif_adi == null)
+    {
+        <h1 style="text-align:center;color:white">Henüz duyuru eklenmedi</h1>
+    }
+    else
+    {
+        <h1 style="text-align:center;color:white"> @ViewBag.sinif_adi </h1>
+    }
+    
+</div>
+<a href="/Siniflar/kisilerListe/@ViewBag.sinif_id">
+    <div class="baslik2" >
+
+
+        <h1 >Kişiler</h1>
+
+
+    </div>
+</a>
+
+
+<br /><br /><br /><br /><br /><br /><br />
+
+
+@{
+    int kontrol = 1;
+}
+
+
+@foreach (Duyuru d in ViewBag.du)
+{
+    kontrol = 1;
+
+    if (d.sinif_id == ViewBag.sinif_id)
+    {
+        <div id="contentt" style="top:5%;">
+            <br />
+
+
+            <a style="text-align:left;margin:0px;padding:0px;background-color:transparent;border:none;
+    text-decoration:none;font-family:Calibri, Arial;font-size:17px;font-weight:bold;color:#e5e5e5;float:left;">baslık :@d.baslik
+            </a>
+    <br /><br />
+    <a style="text-align:left;font-family:Calibri, Arial;font-size:16px;font-weight:bold;color:#e5e5e5;
+        float:left;margin:0px;padding:0px;background-color:transparent;border:none;text-decoration:none;">
+
+        <p>bildiri   :  @d.bildiri</p>
+    </a>
+
+    <br /><br />
+
+    @if (d.dosya == null)
+    {
+        <p>dosya eklenmedi</p>
+    }
+    else
+    {
+        <p>
+            dosya linki: <a href="@d.dosya">
+                İndir
+            </a>
+        </p>
+
+
+        @*<button class="btn btn-primary aaa" >Ödev Yükle</button>*@
+    }
+
+    @foreach (Kontrol_odev k in ViewBag.kont)
+    {
+        if (d.duyuru_id==k.duyuru_id && k.Odevler.Ogrenci.Kullanicilar.kullanici_adi == User.Identity.Name)
+        {
+
+
+            <p style="color:lawngreen"><strong>Ödevi yükledin</strong></p>
+            foreach (Odevler o in ViewBag.odev)
+            {
+                if (o.odev_id == k.odev_id)
+                {
+                    <a style="color:lawngreen" href="@o.odev"> ödevini indir</a>
+                    @*<button class="btn btn-danger"> ödevi kaldır</button>*@
+
+                    if (Model != null)
+                    {
+                        foreach (var item in Model) //azure dan kaldır
+                        {
+                           @*<input type="hidden" data-oid="@o.odev_id" />*@
+                           <input type="submit" href="#" data-oid="@o.odev_id" class="btn btn-link" id="btndel" value="Kaldır" data-id="@item.ActualFileName" />
+                            break;
+                        }
+                    }
+
+                    break;
+                }
+            }
+            kontrol = 0;
+            break;
+        }
+
+    }
+
+    @if (kontrol == 1)
+    {
+        using (Html.BeginForm("UploadBlob", "Blob", FormMethod.Post, new { encType = "multipart/form-data" }))
+        {
+            @Html.AntiForgeryToken()
+            <p style="color:springgreen"><strong>Ödevini henüz yüklemedin</strong></p>
+
+            <div class="container">
+                <div class="form-group">
+                    <br />
+                    <label>ödevini yükle </label>
+                    <input type="file" name="uploadFileName" value="Browse" class="btn-primary" />
+                    <br />
+                    <input type="hidden" name="kime" value="@ViewBag.oid" />
+                    <input type="hidden" name="duyuru" value="@d.duyuru_id" />
+                    <input type="hidden" name="nereye" value="2" />
+                    <input type="hidden" name="sid" value="@d.sinif_id" />
+
+                    <button type="submit" class="btn btn-success">Yükle</button>
+                </div>
+            </div>
+
+        }
+    }
+
+</div><br />
+
+
+        
+
+    }
+}
+
+@section scripts{
+    <script src="~/Content/assets/js/required/jquery-1.11.1.min.js"></script>
+    <script type="text/javascript">
+        //debugger
+        $(document).ready(function(){
+            $('input[type="submit"]').click(function(){
+                var fileName = $(this).attr("data-id");
+                var id = $(this).attr("data-oid");
+
+                var ext = fileName.split('.').pop();
+                var file = fileName.substr(0, fileName.lastIndexOf('.'));
+
+                var msgx = confirm("Veriyi silmek istediğine emin misin?\n");
+                if(msgx){
+                    $.ajax({
+                        type:"post",
+                        url: '@Url.Action("RemoveBlob","Blob")',
+                        data: {file: file,extension:ext,id:id},
+                        success: function(response){
+                            if (response == true) {
+                                window.location.replace("/Siniflar/ogrenci/");
+                            }
+                        }
+                    });
+                }
+        });
+
+
+        });
+
+    </script>
+
+}

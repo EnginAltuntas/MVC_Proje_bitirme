@@ -1,0 +1,144 @@
+﻿@{
+    ViewBag.Title = "ogrenci";
+}
+@{Model1 ctx = new Model1(); }
+<style>
+    .baslik2
+    {
+        position:relative;height:155px;text-align:center;background-color:darkslategray;
+
+        border: 0.5px ;
+        padding: 2px;
+        margin:40px;
+        box-shadow: 5px 5px 20px 1px #666666;
+        border-bottom-left-radius: 25px 25px;
+        border-top-right-radius: 25px 25px;
+        color:white;
+
+    }
+
+    .button {
+        position: absolute;
+        right: 3px;
+        top:0px;
+        border-radius: 14px;
+        background-color: #f4511e;
+        border: none;
+        color: #FFFFFF;
+        text-align: center;
+        font-size: 12px;
+        padding: 3px;
+        width: 90px;
+        transition: all 0.5s;
+        cursor: pointer;
+        margin: 5px;
+    }
+
+        .button span {
+            cursor: pointer;
+            display: inline-block;
+            position: relative;
+            transition: 0.5s;
+        }
+
+            .button span:after {
+                content: '\00bb';
+                position: absolute;
+                opacity: 0;
+                top: 0;
+                right: -20px;
+                transition: 0.5s;
+            }
+
+        .button:hover span {
+            padding-right: 13px;
+        }
+
+            .button:hover span:after {
+                opacity: 1;
+                right: 0;
+            }
+</style>
+
+<h2 style="color:midnightblue">Öğrenci olarak katıldığınız sınıflar</h2>
+
+@if (ViewBag.ccc != 1)
+{
+
+    <h2>
+        <div  style="height:61px;text-align:center;background-color:darkslategray;position:relative">
+            <a href="#">
+                <P style="color:white"> Herhangi bir sınıfa kayıtlı değilsiniz.     <br /></P>
+            </a>
+        </div>
+    </h2>
+
+}
+else
+{
+    foreach (Kontrol_sinif s in ViewBag.bbb)
+    {
+        <h2>
+            
+                @if (s.Ogrenci.Kullanicilar.kullanici_adi == User.Identity.Name)
+                {
+                    <div class="baslik2" >
+                        <button class="button" data-sid="@s.sinif_id"><span>sınıftan çık </span></button><br />
+                        <a href="#" class="gonder" data-sinif_idsi="@s.sinif_id">
+                            <p style="color:white"> @s.Sinif.sinif_adi.ToUpper() </p>
+                            <p style="color:white">Üye Sayisi : @ctx.Kontrol_sinif.Count(x => x.sinif_id == s.sinif_id)</p>
+                        </a>
+
+                    </div>
+                }
+            
+        </h2>
+    }
+}
+@section scripts{
+    
+<script src="~/Content/assets/js/required/jquery-1.11.1.min.js"></script>
+<script>
+        $(".button").click(function () {
+            var sonuc = confirm("Sınıftan çıkmak istediğinize emin misiniz?"); 
+            if (sonuc)
+            {
+                var id = $(this).data("sid");
+                $.ajax({
+                    type: "POST",
+                    url: "/Siniflar/siniftancik/" + id,
+                    success:function()
+                    {
+                        alert("Sınıftan çıkıldı.");
+                        window.location.replace("/Siniflar/ogrenci/");
+                    },
+                    error:function(){
+                        alert("hata oluştu.sınıftan çıkılamadı");
+                }
+                });
+            }
+            else {
+                window.location.replace("/Siniflar/ogrenci/");
+            }
+            
+        });
+
+        $(".gonder").click(function () {
+            var id = $(this).data("sinif_idsi");
+            $.ajax({
+                type: "POST",
+                url: "/Siniflar/goster/"+id,
+                success: function () {
+                    //alert("id alındı");
+                    window.location.replace("/Siniflar/goster/" + id);
+                },
+                error: function () {
+                    alert("HATA!");
+                }
+
+            });
+        });
+    </script>
+    
+
+    }

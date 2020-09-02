@@ -1,0 +1,50 @@
+﻿
+@{
+    ViewBag.Title = "mailDegis";
+}
+
+@if (ViewBag.durum == 1)
+{
+    <script type="text/javascript">
+
+            window.onload = function () {
+                alert("Yeni e-posta adresiniz uyuşmadı. Yeni e-posta adresinizi iki kutucuğa doğru yazınız");
+            };
+    </script>
+}
+@if (ViewBag.durum == 2)
+{
+    <script type="text/javascript">
+
+            window.onload = function () {
+                alert("Eski e-posta adresinizi yanlış girdiniz.");
+            };
+    </script>
+}
+@if (ViewBag.durum == 3)
+{
+    <script type="text/javascript">
+
+            window.onload = function () {
+                alert("e-posta adresiniz başarıyla değiştirildi.");
+            };
+    </script>
+}
+
+<body class="login-body">
+    <div class="container">
+        <form class="form-signin" action="/Ek/mailKontrol" method="post">
+            <h2 class="form-signin-heading">E-posta değiştirme</h2>
+            <div class="login-wrap">
+
+                <input type="text" class="form-control" placeholder="Eski mail" name="eski_mail">
+                <input type="text" class="form-control" placeholder="Yeni mail" name="yeni_mail1">
+                <input type="text" class="form-control" placeholder="Yeni mail tekrar" name="yeni_mail2">
+
+                <button class="btn btn-lg btn-login btn-block" type="submit">Gönder</button>
+
+            </div>
+        </form>
+    </div>
+</body>
+

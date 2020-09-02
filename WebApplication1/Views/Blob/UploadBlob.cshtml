@@ -1,0 +1,25 @@
+﻿
+@{
+    ViewBag.Title = "UploadBlob";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@using (Html.BeginForm("UploadBlob", "Blob", FormMethod.Post, new { encType = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="container">
+        <div class="form-group">
+            <br />
+
+            <label>Azure a yükle </label>
+            <input type="file" name="uploadFileName" value="Browse" class="btn-primary" />
+            <br />
+            <input type="hidden" name="nereye" value="2"/> @*odev tablosuna ekler*@
+            
+            <button type="submit"  id="buttonSubmit" class="btn btn-success">Yükle</button>
+        </div>
+    </div>
+
+}
+

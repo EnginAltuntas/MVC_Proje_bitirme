@@ -1,0 +1,81 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="container">
+
+    @Html.ActionLink("Dosya Ekle(Max 4 MB)", "uploadBlob", new { controller = "Blob" }, new { @class = "btn btn-link" })
+
+    <div class="table table-striped table-responsive">
+        <table id="tablex">
+            <thead>
+                <tr>
+                    <th>Container</th>
+                    <th>Dosya adı</th>
+                    <th>İndirme Bağlantısı</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model != null)
+                {
+                    foreach (var item in Model)
+                    {
+                        <tr id="row_@item.PrimaryUri">
+                            <td>@item.BlobContainerName</td>
+                            <td>@item.ActualFileName</td>
+
+                            <td>
+                                <a href="@item.PrimaryUri">@item.PrimaryUri</a>
+                            </td>
+
+                            <td>@Html.ActionLink("İndir", "DownloadBlob", new { controller = "Blob", file = @item.fileNameWithoutExt, extension = @item.FileNameExtensionOnly })</td>
+
+                            <td>
+                                <input type="submit" href="#" class="btn btn-link" id="btndel" value="Kaldır" data-id="@item.ActualFileName" />
+
+                            </td>
+                            @*<td >@Html.ActionLink("Remove", "RemoveBlob", new {  controller = "Blob", file = @item.fileNameWithoutExt, extension = @item.FileNameExtensionOnly })</td>*@
+
+                        </tr>
+                    }
+                }
+
+            </tbody>
+        </table>
+    </div>
+
+</div>
+
+@section scripts{
+    <script src="~/Content/assets/js/required/jquery-1.11.1.min.js"></script>
+    <script type="text/javascript">
+        debugger
+        $(document).ready(function(){
+            $('table tbody tr td input[type="submit"]').click(function(){
+                var fileName = $(this).attr("data-id")
+
+                var ext = fileName.split('.').pop();
+                var file = fileName.substr(0,fileName.lastIndexOf('.'))
+                var tr = $(this).closest('tr');
+
+                var msgx = confirm("Veriyi silmek istediğine emin misin?");
+                if(msgx){
+                    $.ajax({
+                        type:"post",
+                        url: '@Url.Action("RemoveBlob","Blob")',
+                        data: {file: file,extension:ext},
+                        success: function(response){
+                            if(response == true){
+                                tr.remove();
+                            }
+                        }
+                    });
+
+                }
+        });
+        });
+
+    </script>
+
+
+}

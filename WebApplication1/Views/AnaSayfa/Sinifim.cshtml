@@ -1,0 +1,18 @@
+﻿@{
+    ViewBag.Title = "Sinifim";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+}
+
+    @foreach (Sinif i in ViewBag.Sinif_Bilgiler)
+    {
+
+        if (i.sinif_kodu == ViewBag.sinifkodu)
+        {
+
+            <p>sınıf adı   :  @i.sinif_adi</p>
+            <p>sınıf kodu  :  @i.sinif_kodu</p><br />
+            <a href="/AnaSayfa/SinifGetir/@i.sinif_id"><span style="font-size:15px;color:blue;">Sınıfa Git</span></a>
+        }
+
+    }

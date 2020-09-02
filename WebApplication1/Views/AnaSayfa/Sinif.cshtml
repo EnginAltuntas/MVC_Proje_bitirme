@@ -1,0 +1,64 @@
+﻿@{
+    ViewBag.Title = "Sinif";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    .ana
+    {
+        height:61px;
+        text-align:center;
+        background-color:gray;
+        border: 0.5px ;
+        padding: 15px;
+        margin:40px;
+        box-shadow: 5px 5px 20px 1px #666666;
+        border-bottom-left-radius: 25px 25px;
+        border-top-right-radius: 25px 25px;
+        color:white;
+    }
+    .ana:hover
+    {
+        background-color:darkgray;
+    }
+
+</style>
+
+<h2 style="color:midnightblue;text-align:center;">Yöneticisi olduğunuz sınıflar</h2>
+
+@if (ViewBag.aaa == 1)
+{
+    foreach (Sinif i in ViewBag.Sinif_Bilgiler)
+    {
+        <h2>
+            @if (i.Yonetici.Kullanicilar.kullanici_adi == User.Identity.Name)
+            {
+                <a href="/AnaSayfa/SinifGetir/@i.sinif_id">
+                    <div class="ana">
+
+                        <p  > @i.sinif_adi     <br /></p>
+
+                    </div>
+                </a>
+
+            }
+        </h2>
+
+    }
+
+}
+else
+{
+    <h2>
+        <a href="#">
+            <div style="height:61px;text-align:center;background-color:darkslategray">
+
+                <P style="color:white"> Herhangi bir sınıfta yönetici değilsiniz.     <br /></P>
+
+            </div>
+        </a>
+    </h2>
+
+}
+
+
+

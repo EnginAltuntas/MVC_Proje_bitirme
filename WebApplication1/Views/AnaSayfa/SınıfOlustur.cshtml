@@ -1,0 +1,19 @@
+﻿@{
+    ViewBag.Title = "SınıfOlustur";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@model WebApplication1.Sinif
+
+<h2>SınıfOlustur</h2>
+<body class="login-body">
+    <div class="container">
+        <form class="form-signin" action="/AnaSayfa/SinifEkle" method="post">
+            <div class="login-wrap">
+                <label>SINIF ADI</label>
+                @Html.TextBoxFor(m => m.sinif_adi, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.sinif_adi, "", new { @style = "color:red" })
+                <button class="btn btn-lg btn-login btn-block" type="submit">Olustur</button>
+            </div>
+        </form>
+    </div>
+</body>

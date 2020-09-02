@@ -1,0 +1,114 @@
+﻿@model WebApplication1.Sinif
+@{
+    ViewBag.Title = "SinifGetir";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    .row{
+        position:relative;
+        left:25%;
+    }
+    .bas, .panel-body, .g{
+        position:relative;
+        text-align:center;
+    }
+
+</style>
+
+
+    @foreach (Sinif i in ViewBag.Sinif_Bilgi)
+    {
+        <h2>
+            @if (i.sinif_id == ViewBag.sinif)
+            {
+                <div class="bas">
+                    <a href="/Duyuru/Duyuru_g/@i.sinif_id"><h2>Mevcut duyurular için tıkla</h2></a>
+                    <p>sınıf adı   :  @i.sinif_adi </p>
+                    <p> sınıf kodu  :  @i.sinif_kodu</p>
+                    <button class="btn btn-danger aaa" data-sid="@i.sinif_id" >
+                        SINIFI SİL
+                    </button>
+                </div>
+                        <br />
+            }
+        </h2>
+    }
+
+    <br />
+    <div class="row">
+        <div class="col-lg-6">
+            <section class="panel">
+                <header class="panel-heading text-center">
+                    Duyuru ekle
+                </header>
+                <div class="panel-body">
+                    <form role="form" action="/Duyuru/Duyuru_ekle" method="post" encType="multipart/form-data">
+
+                        <div class="form-group">
+                            <label class="control-label col-lg-2">Başlık</label>
+                            <input type="text" class="form-control col-lg-12" name="baslik" placeholder="Duyuru Başlığı">
+                        </div>
+
+                        <div class="form-group ">
+                            <label for="ccomment" class="control-label col-lg-2">Bildiri </label>
+                            <div class="col-lg-12">
+                                <textarea class="form-control " id="ccomment" name="bildiri" required></textarea>
+                            </div>
+                        </div>
+
+
+                            <label for="exampleInputFile">Dosya ekle(Max 4 MB)</label>
+                            <input class="g" type="file" name="dosya">
+
+
+                        @foreach (Sinif i in ViewBag.Sinif_Bilgi)
+                        {
+                            if (i.sinif_id == ViewBag.sinif)
+                            {
+                                <input type="hidden" name="sinif_id" value="@i.sinif_id">
+                                <input type="hidden" name="sinif_adi" value="@i.sinif_adi">
+                            }
+
+                        }
+                        <button type="submit" class="btn btn-info">Yayınla</button>
+                    </form>
+                </div>
+            </section>
+        </div>
+
+    </div>
+
+@section scripts{
+
+    <script src="~/Content/assets/js/required/jquery-1.11.1.min.js"></script>
+    <script>
+        $(".aaa").click(function () {
+            var sonuc = confirm("Sınıfı silmek istediğinize emin misiniz?\nBu işlem geri alınamaz.\nSınıftaki bütün duyurular ve dosyalar silinir ve öğrenciler sınıfa erişemez!");
+            if (sonuc)
+            {
+                var id = $(this).data("sid");
+                $.ajax({
+                    type: "POST",
+                    url: "/Siniflar/sinifSil/" + id,
+                    success:function()
+                    {
+                        alert("Sınıf silindi.");
+                        window.location.replace("/AnaSayfa/Sinif/");
+                    },
+                    error:function(){
+                        alert("hata oluştu.sınıf silinemedi");
+                        window.location.replace("/AnaSayfa/Sinif/");
+                }
+                });
+            }
+            else {
+                window.location.replace("/AnaSayfa/Sinif/");
+            }
+
+        });
+
+    </script>
+
+
+
+}

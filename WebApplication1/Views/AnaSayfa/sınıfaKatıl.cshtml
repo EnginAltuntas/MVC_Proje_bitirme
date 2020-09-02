@@ -1,0 +1,53 @@
+﻿@{
+    ViewBag.Title = "sınıfaKatıl";
+}
+
+<h2>sınıfaKatıl</h2>
+
+<body class="login-body">
+
+    @if(ViewBag.bilgi==1)
+    {
+        <script type="text/javascript">
+            window.onload = function(){
+                alert("HATALI KOD!");
+            };
+        </script>
+    }
+    @if (ViewBag.bilgi == 2)
+    {
+        <script type="text/javascript">
+            window.onload = function(){
+                alert("KATILIM BAŞARILI");
+            };
+        </script>
+    }
+    @if (ViewBag.bilgi == 3)
+    {
+        <script type="text/javascript">
+            window.onload = function(){
+                alert("BU SINIFA DAHA ÖNCE KATILIM SAĞLANMIŞTIR!!!\nAYNI SINIFA 2 DEFA KATILIM SAĞLANAMAZ");
+            };
+        </script>
+    }
+    @if (ViewBag.bilgi == 4)
+    {
+        <script type="text/javascript">
+            window.onload = function(){
+                alert("YÖNETİCİSİ OLUNAN SINIFA KATILIM SAĞLANAMAZ!");
+            };
+        </script>
+    }
+
+    <div class="container">
+        <form class="form-signin" action="/AnaSayfa/SınıfKatıl" method="post">
+            <div class="login-wrap">
+                <label>SINIF KODUNU GİRİNİZ</label>
+                <input type="text" class="form-control" placeholder="Sınıf kodu" name="kod" autofocus>
+               
+                <button class="btn btn-lg btn-login btn-block" type="submit">KATIL</button>
+            </div>
+        </form>
+    </div>
+
+</body>

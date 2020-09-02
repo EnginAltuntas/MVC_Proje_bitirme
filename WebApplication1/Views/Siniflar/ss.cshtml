@@ -1,0 +1,19 @@
+﻿
+@{
+    ViewBag.Title = "ss";
+}
+
+@foreach (Duyuru d in ViewBag.du)
+{
+    if (d.sinif_id == ViewBag.sinif_id)
+    {
+        <p>@d.Sinif.sinif_adi</p>
+        <p>@d.Sinif.sinif_kodu</p>
+        <br /><br />
+        <p>@d.baslik</p>
+        <br />
+        <p>@d.bildiri</p>
+        <p>@d.dosya</p>
+
+    }
+}

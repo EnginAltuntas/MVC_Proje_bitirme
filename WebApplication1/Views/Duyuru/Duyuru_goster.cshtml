@@ -1,0 +1,242 @@
+﻿
+@{
+    ViewBag.Title = "Duyuru_goster";
+}
+
+<script type="text/javascript" src="https://code.jquery.com/jquery-latest.js"></script><br />
+<style type="text/css">
+    .baslik
+    {
+        background-color:chocolate;
+        width:80%;
+        height:108px;
+        position:fixed;
+        top:65px;
+        z-index:1;
+        float:left;
+        text-align:center;
+
+        border: 0.5px ;
+        padding: 2px;
+        margin:40px;
+        box-shadow: 5px 5px 20px 1px #666666;
+        border-bottom-left-radius: 25px 25px;
+        border-top-right-radius: 25px 25px;
+        color:white;
+    }
+    .baslik2
+    {
+        background-color:dodgerblue; width:10%; height:108px; position:fixed; top:65px; z-index:1; float:left;
+
+        text-align:center;
+
+        border: 0.5px ;
+        padding: 2px;
+        margin:40px;
+        box-shadow: 5px 5px 20px 1px #666666;
+        border-bottom-left-radius: 25px 25px;
+        border-top-right-radius: 25px 25px;
+        color:white;
+    }
+    .baslik2:hover
+    {
+        background-color:skyblue;
+    }
+    .button {
+        position: absolute;
+        right: 0;
+        top:0;
+        border-radius: 14px;
+        background-color: #f4511e;
+        border: none;
+        color: #FFFFFF;
+        text-align: center;
+        font-size: 12px;
+        padding: 3px;
+        width: 110px;
+        transition: all 0.5s;
+        cursor: pointer;
+        margin: 5px;
+    }
+    .ts {
+        position: absolute;
+        right: 18%;
+        top:0;
+        border-radius: 14px;
+        background-color: #f4511e;
+        border: none;
+        color: #FFFFFF;
+        text-align: center;
+        font-size: 12px;
+        padding: 3px;
+        width: 110px;
+        transition: all 0.5s;
+        cursor: pointer;
+        margin: 5px;
+    }
+
+    .button span, .ts span {
+            cursor: pointer;
+            display: inline-block;
+            position: relative;
+            transition: 0.5s;
+        }
+
+            .button span:after, .ts span:after{
+                content: '\00bb';
+                position: absolute;
+                opacity: 0;
+                top: 0;
+                right: -20px;
+                transition: 0.5s;
+            }
+
+        .button:hover span, .ts:hover span {
+            padding-right: 13px;
+        }
+
+            .button:hover span:after, .ts:hover span:after {
+                opacity: 1;
+                right: 0;
+            }
+
+    body, input {
+        font-family: Calibri, Arial;
+        position: relative;
+    }
+
+    #contentt {
+        text-align: left;
+        position: relative;
+        background-color: #73152C;
+        width: 661px;
+        height: auto;
+        padding: 3px;
+        margin-top: 5px;
+        overflow: hidden;
+        padding: 8px;
+        -webkit-border-radius: 6px;
+        -moz-border-radius: 6px;
+        border-radius: 6px;
+    }
+
+</style><br />
+
+<div class="baslik">
+
+    @if (ViewBag.sinif_adi == null)
+    {
+
+        <h1 > @ViewBag.sinif_adi <br /> 
+            Henüz duyuru eklenmedi
+        </h1>
+    }
+    else
+    {
+        <h1  > 
+                @ViewBag.sinif_adi   <br /> 
+                üye sayısı: @ViewBag.uye_sayi 
+        </h1 >
+        
+
+    }
+    
+</div>
+<a href="/Duyuru/kisilerListe/@ViewBag.sinif__id">
+    <div class="baslik2" >
+
+
+        <h1>Kişiler</h1>
+
+
+    </div>
+</a>
+
+<br /><br /><br /><br /><br /><br /><br />
+@foreach (Duyuru d in ViewBag.duyurular)
+{
+    if (d.sinif_id == ViewBag.sinif__id)
+    {
+        <div id="contentt" style="top:5%;" >
+            <br />
+            <button class="ts" data-xx="@d.duyuru_id"><span>ödev bilgi </span></button>
+            <button class="button"  data-di="@d.duyuru_id"><span>duyuruyu kaldır </span></button>
+
+
+            <a style="text-align:left;margin:0px;padding:0px;background-color:transparent;border:none;
+    text-decoration:none;font-family:Calibri, Arial;font-size:17px;font-weight:bold;color:#e5e5e5;float:left;">baslık :@d.baslik
+            </a>
+    <br /><br />
+    <a style="text-align:left;font-family:Calibri, Arial;font-size:16px;font-weight:bold;color:#e5e5e5;
+        float:left;margin:0px;padding:0px;background-color:transparent;border:none;text-decoration:none;">
+
+        <p>bildiri   :  @d.bildiri</p>
+    </a>
+
+    <br /><br />
+
+    @if (d.dosya == null)
+    {
+        <p>dosya eklenmedi</p>
+    }
+    else
+    {
+        <p>
+            dosya linki: <a href="@d.dosya">İndir
+            </a>
+        </p>
+    }
+
+</div><br />
+
+    }
+
+}
+
+@section scripts
+{
+<script src="~/Content/assets/js/required/jquery-1.11.1.min.js"></script>
+
+    <script>
+        $(".button").click(function () {
+            var sonuc = confirm("Duyuruyu kaldırmak istediğinize emin misiniz?");
+            if (sonuc) {
+                var id = $(this).data("di");
+                $.ajax({
+                    type: "POST",
+                    url: "/Duyuru/duyuruKaldir/" + id,
+                    success: function () {
+                        alert("Duyuru kaldırıldı.");
+                        window.location.replace("/Duyuru/Duyuru_g/");
+                    },
+                    error: function () {
+                        alert("Hata oluştu.Duyuru kaldırılamadı.");
+                    }
+                });
+            }
+
+
+        });
+</script>
+    <script>
+        $(".ts").click(function () {
+
+                var xid = $(this).data("xx");
+                $.ajax({
+                    type: "POST",
+                    url: "/Duyuru/duyuruBilgi/" + xid,
+                    success: function () {
+                        window.location.replace("/Duyuru/duyuruBilgi/" + xid);
+                    },
+                    error: function () {
+                        alert("Hata oluştu.");
+                    }
+                });
+
+
+
+        });
+
+    </script>
+    
+}

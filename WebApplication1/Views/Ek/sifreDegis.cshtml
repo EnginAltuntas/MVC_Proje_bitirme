@@ -1,0 +1,61 @@
+﻿@{
+    ViewBag.Title = "sifreDegis";
+}
+
+@if (ViewBag.durum == 1)
+{
+    <script type="text/javascript">
+
+            window.onload = function () {
+                alert("Yeni şifreler uyuşmadı. Yeni şifrenizi iki kutucuğa doğru yazınız");
+            };
+    </script>
+}
+@if (ViewBag.durum == 2)
+{
+    <script type="text/javascript">
+
+            window.onload = function () {
+                alert("Eski şifrenizi yanlış girdiniz.");
+            };
+    </script>
+}
+@if (ViewBag.durum == 3)
+{
+    <script type="text/javascript">
+
+            window.onload = function () {
+                alert("Şifre başarıyla değiştirildi.");
+            };
+    </script>
+}
+
+<body class="login-body">
+    <div class="container">
+        <form class="form-signin" action="/Ek/sifreKontrol" method="post">
+            <h2 class="form-signin-heading">Şifre değiştirme</h2>
+            <div class="login-wrap">
+
+                <input type="password" class="form-control"  placeholder="Eski şifre" name="eski_sifre">
+                <input type="password" class="form-control"  placeholder="Yeni şifre" name="yeni_sifre1">
+                <input type="password" class="form-control"  placeholder="Yeni şifre tekrar" name="yeni_sifre2">
+                <input type="checkbox" onclick="myFunction()"> Şifreleri göster
+                <button class="btn btn-lg btn-login btn-block" type="submit">Gönder</button>
+
+            </div>
+        </form>
+    </div>
+</body>
+
+
+<script>
+function myFunction() {
+    var x = document.getElementsByClassName("form-control");
+  if (x[0].type === "password") {
+      x[0].type = "text"; x[1].type = "text"; x[2].type = "text";
+  } else {
+      x[0].type = "password"; x[1].type = "password"; x[2].type = "password";
+  }
+}
+
+</script>

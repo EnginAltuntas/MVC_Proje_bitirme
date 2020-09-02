@@ -1,0 +1,64 @@
+﻿
+@{
+    ViewBag.Title = "duyuruBilgi";
+}
+
+<br />
+
+    <div class="row">
+        <div class="col-md-12">
+            <!--  -->
+            <div class="block">
+                <div class="block-heading">
+                    <div class="main-text h2">
+                       Yüklenen Ödevler
+                    </div>
+                    <br />
+                </div>
+                <div class="block-content-outer">
+                    <div class="block-content-inner">
+                        <div class="table-responsive">
+                            <form role="form">
+                                <table class="table table-condensed table-striped table-bordered table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th class="col-xs-2">Ad Soyad</th>
+                                            <th class="col-xs-1">Durum</th>
+                                            <th class="col-xs-2">Ödevin eklendiği tarih</th>
+                                            <th class="col-xs-2">Ödev linki</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                            @foreach (Kontrol_odev k in ViewBag.kontrolOdev)
+                               {
+                                 if (k.duyuru_id == ViewBag.did)
+                                    {
+
+                                        <tr>
+
+                                            <td>@k.Odevler.Ogrenci.Kullanicilar.ad @k.Odevler.Ogrenci.Kullanicilar.soyad</td>
+                                            <td>
+                                                <span class="label label-success">Yükleme başarılı</span>
+                                            </td>
+
+                                            <td>@k.Odevler.odev_tarih  @k.Odevler.odev_saat</td>
+                                            <td><a href="@k.Odevler.odev"> indir</a></td>
+                                        </tr>
+
+                                    }
+                               }
+                                    </tbody>
+                                </table>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--  -->
+        </div>
+    </div>
+<br />
+@if(ViewBag.qq==0)
+{
+    <h3>Henüz hiçbir öğrenci ödevini yüklemedi</h3>
+}
