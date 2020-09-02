@@ -1,5 +1,3 @@
-# _Proje_bitirme
-
 # E-SINIF
 Bu proje Zonguldak Bülent Ecevit Üniversitesi Bilgisayar Mühendisliği Bölümü 2020 yılı bitirme projesi dersi için Engin Altuntaş tarafından hazırlanmıştır.
 
