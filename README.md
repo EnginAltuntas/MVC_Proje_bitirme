@@ -7,6 +7,12 @@ Projenin hatasız çalıştırılabilmesi için Microsoft Azure Veri Tabanı sun
 
 Kodların incelenebilmesi amacıyla bu proje paylaşılmıştır.
 
+Projede kullanılan teknolojiler:
+- .NET MVC
+- Microsoft Sql Server
+- Microsoft Azure
+
+
 Projeden görseller:
 
 <img src="f/1.png" width=250>
